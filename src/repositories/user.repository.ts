@@ -22,16 +22,6 @@ export default class UserRepository {
         }
     }
 
-
-    public static async signIn(signInDTO: SignInDTO){
-        const { email, password } = signInDTO;
-        const foundUser = await this.searchUser(null,email);
-        if(!foundUser || foundUser == null) _err(401,`Email y/o contraseña incorrectas.`);
-        if(!foundUser.estado) _err(403,`Usuario no verificado o dado de baja.`);
-        if(!comparePasswords(password, foundUser.password)) _err(401,`Email y/o contraseña incorrectas!`);
-        return foundUser;
-    }
-
     public static async verifiedAccount(email: string, token: string){
         const foundUser = await this.searchUser(null, email);
         if(!foundUser) _err(401,`Email no registrado.`);

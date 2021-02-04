@@ -17,16 +17,6 @@ export const createUser = async (req:Request, res: Response) => {
         }
 }
 
-export const signIn = async(req: Request, res: Response) => {
-        const signInDTO = req.body as SignInDTO;
-        try {
-                const data = await UserService.signIn(signInDTO);
-                _response(res,201,data);
-        } catch (error) {
-                _error_response(res, error.status || 500, error);
-        }
-}
-
 export const verifiedAccount = async(req: Request, res: Response) => {
         const { email, token } = req.params;
         try {

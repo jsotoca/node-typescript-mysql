@@ -32,23 +32,6 @@ export default class UserService {
         }
     }
 
-    public static async signIn(signInDTO:SignInDTO){
-        try {
-            const foundUser = await UserRepository.signIn(signInDTO);
-            const token = generateToken({ 
-                id_usuario: foundUser.id_usuario, 
-                email: foundUser.email
-            });
-            delete foundUser.password;
-            return {
-                foundUser,
-                token
-            };
-        } catch (error) {
-            _err(error.status,error.message);
-        }
-    }
-
     public static async verifiedAccount(email: string, token: string){
         try {
             const foundUser = await UserRepository.verifiedAccount(email, token);
