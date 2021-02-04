@@ -80,6 +80,6 @@ export const emailResetPassword = (usuario:Usuario) => {
 
 const generateUrl = (usuario: Usuario, route: string) => {
     const token = generateTemporalToken(usuario);
-    const url = `${enviroment.APP_URL}/auth/${route}/${usuario.email}/${token}`;
+    const url = `${enviroment.APP_URL}/user/${route}/${usuario.email}/${token}`;
     return url;
 }

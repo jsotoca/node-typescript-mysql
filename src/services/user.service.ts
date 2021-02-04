@@ -1,7 +1,8 @@
 import User from "../entities/user.entity";
 import { _err } from "../helpers/error.helper";
-import { generateToken } from "../helpers/token.helper";
+import { decodeTemporalToken, generateToken } from "../helpers/token.helper";
 import SignInDTO from "../interfaces/dtos/signin.interface";
+import Payload from "../interfaces/payload.intertace";
 import UserRepository from "../repositories/user.repository";
 import AWSS3 from "./aws-s3.service";
 import MailerService from "./mailer.service";
@@ -21,6 +22,7 @@ export default class UserService {
                 email: newUser.email
             });
             MailerService.sendEmailConfirmation(newUser);
+            delete newUser.password;
             return {
                 newUser,
                 token
@@ -37,10 +39,22 @@ export default class UserService {
                 id_usuario: foundUser.id_usuario, 
                 email: foundUser.email
             });
+            delete foundUser.password;
             return {
                 foundUser,
                 token
             };
+        } catch (error) {
+            _err(error.status,error.message);
+        }
+    }
+
+    public static async verifiedAccount(email: string, token: string){
+        try {
+            const foundUser = await UserRepository.verifiedAccount(email, token);
+            const payload:Payload = await decodeTemporalToken(token, foundUser);
+            if(email != payload.email) _err(403,`Email no coincide.`);
+            await UserRepository.updatedStatus(true);
         } catch (error) {
             _err(error.status,error.message);
         }

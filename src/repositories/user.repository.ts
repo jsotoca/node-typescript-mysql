@@ -16,7 +16,6 @@ export default class UserRepository {
             `,[ user.email, user.password ]);
             const id = data.insertId;
             const newUser = await this.searchUser(id,null);
-            delete newUser.password;
             return newUser;
         } catch (error) {
             _err(500, error.message, ErrorTitles.ERROR_DATABASE);
@@ -30,7 +29,13 @@ export default class UserRepository {
         if(!foundUser || foundUser == null) _err(401,`Email y/o contraseña incorrectas.`);
         if(!foundUser.estado) _err(403,`Usuario no verificado o dado de baja.`);
         if(!comparePasswords(password, foundUser.password)) _err(401,`Email y/o contraseña incorrectas!`);
-        delete foundUser.password;
+        return foundUser;
+    }
+
+    public static async verifiedAccount(email: string, token: string){
+        const foundUser = await this.searchUser(null, email);
+        if(!foundUser) _err(401,`Email no registrado.`);
+        if(foundUser.estado) _err(201,`Email ya verificado.`);
         return foundUser;
     }
 
@@ -50,6 +55,16 @@ export default class UserRepository {
             await MySQL.doQuery(`
                 UPDATE usuario SET avatar = ?
             `,[ avatar ]);
+        } catch (error) {
+            _err(500, error.message, ErrorTitles.ERROR_DATABASE);
+        }
+    }
+
+    public static async updatedStatus(status: boolean){
+        try {
+            await MySQL.doQuery(`
+                UPDATE usuario SET estado = ?
+            `,[ status ]);
         } catch (error) {
             _err(500, error.message, ErrorTitles.ERROR_DATABASE);
         }
