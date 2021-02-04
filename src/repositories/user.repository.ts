@@ -46,6 +46,13 @@ export default class UserRepository {
         return foundUser;
     }
 
+    public static async resetPassword(email: string, token: string, password: string){
+        const foundUser = await this.searchUser(null, email);
+        if(!foundUser) _err(401,`Email no registrado.`);
+        if(!foundUser.estado) _err(401,`La cuenta fue dada de baja.`);
+        return foundUser;
+    }
+
     public static async searchUser(id: string, email: string){
         try {
             const data = await MySQL.doQuery(`
@@ -72,6 +79,16 @@ export default class UserRepository {
             await MySQL.doQuery(`
                 UPDATE usuario SET estado = ?
             `,[ status ]);
+        } catch (error) {
+            _err(500, error.message, ErrorTitles.ERROR_DATABASE);
+        }
+    }
+
+    public static async updatedPassword(password: string){
+        try {
+            await MySQL.doQuery(`
+                UPDATE usuario SET password = ?
+            `,[ password ]);
         } catch (error) {
             _err(500, error.message, ErrorTitles.ERROR_DATABASE);
         }

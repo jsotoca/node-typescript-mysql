@@ -69,4 +69,16 @@ export default class UserService {
         }
     }
 
+    public static async resetPassword(email: string, token: string, password: string){
+        try {
+            const foundUser = await UserRepository.resetPassword(email, token, password);
+            const payload:Payload = await decodeTemporalToken(token, foundUser);
+            if(email != payload.email) _err(403, `Email no coincide.`);
+            await UserRepository.updatedPassword(password);
+        } catch (error) {
+            _err(500,`Se produjo un error autentificando al usuario.`);
+        }
+    }
+
+
 }
