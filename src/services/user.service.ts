@@ -32,17 +32,6 @@ export default class UserService {
         }
     }
 
-    public static async verifiedAccount(email: string, token: string){
-        try {
-            const foundUser = await UserRepository.verifiedAccount(email, token);
-            const payload:Payload = await decodeTemporalToken(token, foundUser);
-            if(email != payload.email) _err(403,`Email no coincide.`);
-            await UserRepository.updatedStatus(true);
-        } catch (error) {
-            _err(error.status,error.message);
-        }
-    }
-
     public static async forgotPassword(email: string){
         try {
             const foundUser = await UserRepository.forgotPassword(email);

@@ -14,4 +14,11 @@ export default class AuthRepository {
         return foundUser;
     }
 
+    public static async verifiedAccount(email: string, token: string){
+        const foundUser = await UserRepository.searchUser(null, email);
+        if(!foundUser) _err(401,`Email no registrado.`);
+        if(foundUser.estado) _err(201,`Email ya verificado.`);
+        return foundUser;
+    }
+
 }

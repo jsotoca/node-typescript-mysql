@@ -22,13 +22,6 @@ export default class UserRepository {
         }
     }
 
-    public static async verifiedAccount(email: string, token: string){
-        const foundUser = await this.searchUser(null, email);
-        if(!foundUser) _err(401,`Email no registrado.`);
-        if(foundUser.estado) _err(201,`Email ya verificado.`);
-        return foundUser;
-    }
-
     public static async forgotPassword(email: string){
         const foundUser = await this.searchUser(null, email);
         if(!foundUser) _err(401,`Email no registrado en la BD.`);

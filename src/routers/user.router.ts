@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import { createUser, forgotPassword, resetPassword, verifiedAccount } from '../controllers/user.controller';
+import { createUser, forgotPassword, resetPassword } from '../controllers/user.controller';
 import { uploadSingle } from '../helpers/upload.helper';
-import { confirmationValidator } from '../middlewares/validators/confirmation.validator';
 import { CreateUserValidator } from '../middlewares/validators/create-user.validator';
 import { forgotPasswordValidator } from '../middlewares/validators/forgot-password.validator';
 import { resetPasswordValidate } from '../middlewares/validators/reset-password.validator';
@@ -10,7 +9,6 @@ import { validationResults } from '../middlewares/validators/Validationresults.v
 const userRouter = Router();
 
 userRouter.post('/', uploadSingle('avatar'), CreateUserValidator, validationResults, createUser);
-userRouter.get('/confirmation/:email/:token', confirmationValidator, validationResults, verifiedAccount);
 userRouter.get('/forgot-password/:email',forgotPasswordValidator, validationResults, forgotPassword);
 userRouter.post('/reset-password/:email/:token',resetPasswordValidate, validationResults, resetPassword);
 
