@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Usuario from '../entities/user.entity';
 import { encryptPassword } from '../helpers/password.helper';
 import { _error_response, _response } from '../helpers/response.helper';
+import SignInDTO from '../interfaces/dtos/signin.interface';
 import UserService from '../services/user.service';
 
 export const createUser = async (req:Request, res: Response) => {
@@ -13,5 +14,15 @@ export const createUser = async (req:Request, res: Response) => {
                 _response(res, 201, data);
         } catch (error) {
                 _error_response(res,500,error);                
+        }
+}
+
+export const signIn = async(req: Request, res: Response) => {
+        const signInDTO = req.body as SignInDTO;
+        try {
+                const data = await UserService.signIn(signInDTO);
+                _response(res,201,data);
+        } catch (error) {
+                _error_response(res, error.status || 500, error);
         }
 }
