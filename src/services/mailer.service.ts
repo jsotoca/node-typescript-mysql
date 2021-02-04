@@ -1,10 +1,10 @@
 import nodemailer from 'nodemailer';
 import enviroment from '../config/enviroment';
+import Usuario from '../entities/user.entity';
 import ErrorTitles from '../enums/error-titles.enum';
 import { emailConfirmation, emailResetPassword } from '../helpers/emails/emails.helper';
 import { _err } from '../helpers/error.helper';
 import MailerOptions from '../interfaces/mailer.interface';
-import IUser from '../interfaces/models/user.interface';
 
 export default class MailerService {
     private _transport;
@@ -34,23 +34,31 @@ export default class MailerService {
         }
     }
 
-    public static async sendEmailConfirmation(user:IUser){
+    public static async sendEmailConfirmation(usuario:Usuario){
         const mailerOptions: MailerOptions = {
             from: enviroment.MAIL,
-            to: user.email,
+            to: usuario.email,
             subject: ` Confirma tu cuenta en ${enviroment.APP_NAME}`,
-            html: emailConfirmation(user)
+            html: emailConfirmation(usuario)
         }
-        await this.sendEmail(mailerOptions);
+        try {
+            await this.sendEmail(mailerOptions);
+        } catch (error) {
+            _err(500,error.message);
+        }
     }
 
-    public static async sendEmailResetPassword(user:IUser){
+    public static async sendEmailResetPassword(usuario:Usuario){
         const mailerOptions: MailerOptions = {
             from: enviroment.MAIL,
-            to: user.email,
+            to: usuario.email,
             subject: `Resetea tu contraseña de ${enviroment.APP_NAME}`,
-            html: emailResetPassword(user)
+            html: emailResetPassword(usuario)
         }
-        await this.sendEmail(mailerOptions);
+        try {
+            await this.sendEmail(mailerOptions);
+        } catch (error) {
+            _err(500,error.message);
+        }
     }
 }

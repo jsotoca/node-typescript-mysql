@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 import enviroment from '../config/enviroment';
-import IUser from '../interfaces/models/user.interface';
+import Usuario from '../entities/user.entity';
 import Payload from "../interfaces/payload.intertace";
 import { _err } from './error.helper';
 
@@ -12,9 +12,9 @@ export const generateToken = (payload:Payload) => {
     }
 }
 
-export const generateTemporalToken = (user:IUser) => {
-    const payload:Payload = { email: user.email };
-    const secret = user.password + '-' + user.createdAt;
+export const generateTemporalToken = (usuario:Usuario) => {
+    const payload:Payload = { email: usuario.email };
+    const secret = usuario.password + '-' + usuario.fecha_creacion;
     try {
         return sign(payload,secret,{ expiresIn: '1h'});
     } catch (error) {
@@ -37,9 +37,9 @@ export const decodeToken = (token: string) => {
 }
 
 
-export const decodeTemporalToken = (token: string,user: IUser) => {
+export const decodeTemporalToken = (token: string,usuario: Usuario) => {
     return new Promise<Payload>((resolve, reject) => {
-        const secret = user.password + '-' + user.createdAt;
+        const secret = usuario.password + '-' + usuario.fecha_creacion;
         verify(token, secret, (err, payload) => {
             if(err){
                 reject(err);

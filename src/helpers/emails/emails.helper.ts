@@ -1,10 +1,10 @@
 import enviroment from "../../config/enviroment";
-import IUser from "../../interfaces/models/user.interface";
+import Usuario from "../../entities/user.entity";
 import { generateTemporalToken } from "../token.helper";
 import { emailFooter, emailHeader } from "./template.email";
 
-export const emailConfirmation = (user:IUser) => {
-    const url = generateUrl(user, 'confirmation');
+export const emailConfirmation = (usuario:Usuario) => {
+    const url = generateUrl(usuario, 'confirmation');
     const body = `
         <!-- START MAIN CONTENT AREA -->
         <tr>
@@ -40,8 +40,8 @@ export const emailConfirmation = (user:IUser) => {
     return emailHeader('Confirma tu cuenta 💖')+body+emailFooter();
 }
 
-export const emailResetPassword = (user:IUser) => {
-    const url = generateUrl(user, 'reset-password');
+export const emailResetPassword = (usuario:Usuario) => {
+    const url = generateUrl(usuario, 'reset-password');
     const body = `
         <!-- START MAIN CONTENT AREA -->
         <tr>
@@ -78,8 +78,8 @@ export const emailResetPassword = (user:IUser) => {
     return emailHeader('Resetar mi contraseña 💖')+body+emailFooter();
 }
 
-const generateUrl = (user: IUser, route: string) => {
-    const token = generateTemporalToken(user);
-    const url = `${enviroment.APP_URL}/auth/${route}/${user.email}/${token}`;
+const generateUrl = (usuario: Usuario, route: string) => {
+    const token = generateTemporalToken(usuario);
+    const url = `${enviroment.APP_URL}/auth/${route}/${usuario.email}/${token}`;
     return url;
 }
