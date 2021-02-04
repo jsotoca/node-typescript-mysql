@@ -22,7 +22,4 @@ export default class User {
         this.fecha_edicion = fecha_edicion;
     }
 
-    public comparePasswords(password: string): boolean {
-        return comparePasswords(password, this.password);
-    }
 }

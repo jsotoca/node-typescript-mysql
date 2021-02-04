@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import Usuario from '../entities/user.entity';
 import { encryptPassword } from '../helpers/password.helper';
 import { _error_response, _response } from '../helpers/response.helper';
-import SignInDTO from '../interfaces/dtos/signin.interface';
 import UserService from '../services/user.service';
 
 export const createUser = async (req:Request, res: Response) => {
@@ -14,27 +13,5 @@ export const createUser = async (req:Request, res: Response) => {
                 _response(res, 201, data);
         } catch (error) {
                 _error_response(res,500,error);                
-        }
-}
-
-export const forgotPassword = async(req: Request, res: Response) => {
-        const { email } = req.params;
-        try {
-            await UserService.forgotPassword(email);
-            _response(res,201,{ message: 'Se envio el email de recuperar contraseña con exito.'});
-        } catch (error) {
-            _error_response(res, error.status || 500, error);
-        }
-}
-
-export const resetPassword = async(req: Request, res: Response) => {
-        const { email, token } = req.params;
-        let { password } = req.body;
-        password = encryptPassword(password);
-        try {
-            await UserService.resetPassword(email, token, password);
-            _response(res,201,{ message: 'La contraseña se actualizo con exito.'});
-        } catch (error) {
-            _error_response(res, error.status || 500, error);
         }
 }
