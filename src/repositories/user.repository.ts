@@ -39,6 +39,13 @@ export default class UserRepository {
         return foundUser;
     }
 
+    public static async forgotPassword(email: string){
+        const foundUser = await this.searchUser(null, email);
+        if(!foundUser) _err(401,`Email no registrado en la BD.`);
+        if(!foundUser.estado) _err(403,`La cuenta no esta verficada o fue dada de baja.`);
+        return foundUser;
+    }
+
     public static async searchUser(id: string, email: string){
         try {
             const data = await MySQL.doQuery(`

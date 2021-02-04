@@ -60,4 +60,13 @@ export default class UserService {
         }
     }
 
+    public static async forgotPassword(email: string){
+        try {
+            const foundUser = await UserRepository.forgotPassword(email);
+            MailerService.sendEmailResetPassword(foundUser);
+        } catch (error) {
+            _err(error.status,error.message);
+        }
+    }
+
 }
