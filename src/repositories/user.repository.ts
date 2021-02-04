@@ -30,4 +30,14 @@ export default class UserRepository {
         }
     }
 
+    public static async updatedAvatar(avatar: string){
+        try {
+            await MySQL.doQuery(`
+                UPDATE usuario SET avatar = ?
+            `,[ avatar ]);
+        } catch (error) {
+            _err(500, error.message, ErrorTitles.ERROR_DATABASE);
+        }
+    }
+
 }
