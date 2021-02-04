@@ -1,13 +1,10 @@
-# NODE_MONGO_BASE
+# NODE-TYPESCRIPT-MYSQL
 
-_Proyecto base REST API hecho con Node JS, Typescript, Express y Mongoose._
+_Proyecto base REST API hecho con Node JS, Typescript, Express y Mysql._
 
 ## Descripción 🚀
 
 _Esta aplicación incluye el código y modulos necesarios para el despliegue de un proyecto Rest API incluyendo servicios de alojamiento de archivos de AWS S3 y envio de emails con Nodemailer._
-
-Mira **Deployment** para conocer como desplegar el proyecto.
-
 
 ### Instalación 📋
 
@@ -20,27 +17,31 @@ npm init
 _Antes de iniciar la aplicación necesitas crear un archivo .env en el root con la siguiente información_
 
 ```
-APP_NAME            = el nombre de tu app
-APP_URL             = la url de tu app 
-APP_PORT            = el puerto de tu app para express
-MONGO_URI           = la uri de tu mongodb
-TOKEN_SECRET        = el secret para generar los tokens
+APP_NAME            = demo
+APP_URL             = http://localhost:4000/api
+APP_PORT            = 4000
+TOKEN_SECRET        = 43efgg677hffg
 
-MAIL                = el email desde donde se envia los emails
-SMTP_HOST           = el host de tu servicio smtp
-SMTP_PORT           = el puerto de tu servicio smtp
-SMTP_SECURE         = false
-SMTP_USER           = el usuario de tu servicio smtp
-SMTP_PASSWORD       = La contraseña de tu usuario smtp
+DB_HOST             = localhost
+DB_NAME             = tu_bd_name
+DB_USER             = tu_bd_user
+DB_PASS             = tu_bd_pass
 
-AWS_BUCKET          = el bucket de aws donde almacenaras tus archivos
-AWS_LOCATION        = la localización del bucket
-AWS_ACCESS_KEY_ID   = el access key id de tu aws
-AWS_SECRET_KEY      = el secret key id de tu aws
+MAIL                = test@tuemail.com
+SMTP_HOST           = mail.tuemail.com
+SMTP_PORT           = 465
+SMTP_SECURE         = true
+SMTP_USER           = test@tuemail.com
+SMTP_PASSWORD       = tu_password
 
-COMPANY_NAME        = el nombre de tu empresa
-COMPANY_ADDRESS     = la direccion de tu empresa
-COMPANY_EMAIL       = el email de tu empresa
+AWS_BUCKET          = tu_bucket
+AWS_LOCATION        = tu_location
+AWS_ACCESS_KEY_ID   = tu_key_id
+AWS_SECRET_KEY      = tu_secret_key
+
+COMPANY_NAME        = Google
+COMPANY_ADDRESS     = Las delicias #123 Urb. San Francisco
+COMPANY_EMAIL       = info@google.com
 ```
 
 _Corriendo el proyecto en modo de desarrollo_
@@ -70,8 +71,8 @@ _Dependencias_
 "express-validator": "^6.9.2",
 "helmet": "^4.4.1",
 "jsonwebtoken": "^8.5.1",
-"mongoose": "5.11.14",
 "multer": "^1.4.2",
+"mysql": "^2.18.1",
 "nodemailer": "^6.4.17",
 "uuid": "^8.3.2"
 ```
@@ -85,6 +86,7 @@ _Dependencias de desarollo_
 "@types/express": "^4.17.11",
 "@types/jsonwebtoken": "^8.5.0",
 "@types/multer": "^1.4.5",
+"@types/mysql": "^2.15.17",
 "@types/nodemailer": "^6.4.0",
 "@types/uuid": "^8.3.0",
 "ts-node-dev": "^1.1.1",
@@ -97,6 +99,6 @@ _Dependencias de desarollo_
 
 ## Expresiones de Gratitud 🎁
 
-* Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
+* Comenta a otros sobre este proyecto 📢.
+* Invitame un café ☕. 
 * Da las gracias públicamente 🤓.

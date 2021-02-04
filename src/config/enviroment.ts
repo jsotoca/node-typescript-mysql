@@ -5,7 +5,6 @@ const enviroment = {
     APP_URL                 : process.env.APP_URL,
     APP_PORT                : process.env.APP_PORT,
     TOKEN_SECRET            : process.env.TOKEN_SECRET,
-    MONGO_URI               : process.env.MONGO_URI,
     DB_HOST                 : process.env.DB_HOST,
     DB_NAME                 : process.env.DB_NAME,
     DB_USER                 : process.env.DB_USER,
